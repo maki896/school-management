@@ -11,14 +11,19 @@ const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ──────────────────────────────────────────────────────────────
 app.use(helmet({
-    contentSecurityPolicy: false, // Disable CSP to allow Angular to load correctly in single-service mode
+    contentSecurityPolicy: false,
 }));
 app.use(compression());
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the Angular app
-app.use(express.static(path.join(__dirname, '../frontend/dist/frontend/browser')));
+// ─── Production / Vercel Serving ──────────────────────────────────────────────
+// On Vercel, static files are handled by vercel.json. 
+// We only serve static files locally or on non-vercel environments.
+if (!process.env.VERCEL) {
+    const staticPath = path.join(__dirname, '../frontend/dist/frontend/browser');
+    app.use(express.static(staticPath));
+}
 
 // ─── Routes ─────────────────────────────────────────────────────────────────
 app.use('/api/auth',    require('./routes/auth'));
@@ -31,10 +36,12 @@ app.get('/api', (req, res) => {
     res.json({ message: 'School Management System API is running ✓', version: '1.0.0' });
 });
 
-// All other routes should serve the Angular app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/frontend/browser/index.html'));
-});
+// Single Page Application Routing (only locally)
+if (!process.env.VERCEL) {
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/dist/frontend/browser/index.html'));
+    });
+}
 
 // ─── Global Error Handler ────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
