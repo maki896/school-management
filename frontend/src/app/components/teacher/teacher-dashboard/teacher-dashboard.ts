@@ -392,7 +392,7 @@ export class TeacherDashboardComponent implements OnInit {
 
   assignMarks() {
     if (this.markForm.valid) {
-      this.teacherService.assignMarks(this.markForm.value).subscribe({
+      this.teacherService.assignMarks(this.markForm.value as any).subscribe({
         next: () => {
           this.snackBar.open('Marks assigned successfully', 'Close', { duration: 3000 });
           this.markForm.reset({ marks: 0 });

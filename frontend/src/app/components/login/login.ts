@@ -219,7 +219,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
+      this.authService.login(this.loginForm.value as any).subscribe({
         next: (res) => {
           this.snackBar.open('Login Successful', 'Close', { duration: 3000 });
           const role = res.user.role;

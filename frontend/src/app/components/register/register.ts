@@ -204,7 +204,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
+      this.authService.register(this.registerForm.value as any).subscribe({
         next: () => {
           this.snackBar.open('Registration Successful. Please Login.', 'Close', { duration: 3000 });
           this.router.navigate(['/login']);
