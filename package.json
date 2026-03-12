@@ -1,11 +1,13 @@
 {
   "name": "school-management-system",
   "version": "1.0.0",
-  "description": "MEAN Stack School Management System",
+  "private": true,
   "scripts": {
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "build:frontend": "cd frontend && npm install && npm run build",
-    "start": "cd backend && npm start",
-    "deploy": "npm run build:frontend && npm start"
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd backend && node server.js",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

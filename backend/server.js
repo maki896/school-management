@@ -1,14 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
 const cors = require('cors');
 require('dotenv').config();
-
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ──────────────────────────────────────────────────────────────
+app.use(helmet({
+    contentSecurityPolicy: false, // Disable CSP to allow Angular to load correctly in single-service mode
+}));
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
