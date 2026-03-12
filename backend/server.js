@@ -31,9 +31,14 @@ app.use('/api/admin',   require('./routes/admin'));
 app.use('/api/teacher', require('./routes/teacher'));
 app.use('/api/student', require('./routes/student'));
 
-// ─── Health Check ────────────────────────────────────────────────────────────
+// ─── Health check / Fallback ────────────────────────────────────────────────
 app.get('/api', (req, res) => {
-    res.json({ message: 'School Management System API is running ✓', version: '1.0.0' });
+    res.json({ message: 'School Management System API is running ✓' });
+});
+
+// Explicitly handle 404 for API routes
+app.use('/api/*', (req, res) => {
+    res.status(404).json({ msg: 'API route not found' });
 });
 
 // Single Page Application Routing (only locally)
